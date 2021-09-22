@@ -1,4 +1,24 @@
 declare module '@jetbrains/teamcity-api' {
+  import type {
+    AllBuildsType,
+    BuildNumberType,
+    ContentPanelType,
+    EntityPathType,
+    RouterLinkType,
+    RouterButtonType,
+    ServiceMessageType,
+  } from '@jetbrains/teamcity-api/types/components'
+
+  import type {
+    RestServiceType,
+    AlertServiceType,
+    HintsServiceType,
+  } from '@jetbrains/teamcity-api/types/services'
+
+  import type {
+    RequestTextType,
+    RequestJSONType,
+  } from '@jetbrains/teamcity-api/types/services/REST'
 
   export type {
     AllBuildsProps,
@@ -7,13 +27,10 @@ declare module '@jetbrains/teamcity-api' {
     EntityPathProps,
     RouterLinkProps,
     RouterButtonProps,
-  } from "@jetbrains/teamcity-api/types"
+    ServiceMessageProps,
+  } from '@jetbrains/teamcity-api/types/components'
 
   type RenderType = <P extends {} | null | undefined>(elementOrId: HTMLElement | string, Type: React.ComponentType<P>, props: P) => void
-
-  type RequestTextType = (endpoint: string, options?: RequestInit, omitErrorMessage?: boolean) => Promise<string>
-
-  type RequestJSONType = (endpoint: string, options?: RequestInit, omitErrorMessage?: boolean) => Promise<any>
 
   type UtilsType = {
     requestText: RequestTextType
@@ -23,12 +40,19 @@ declare module '@jetbrains/teamcity-api' {
   }
 
   type ComponentsType = {
-    readonly AllBuilds: React.ComponentType<AllBuildsProps>
-    readonly BuildNumber: React.ComponentType<BuildNumberProps>
-    readonly ContentPanel: React.ComponentType<ContentPanelProps>
-    readonly EntityPath: React.ComponentType<EntityPathProps>
-    readonly RouterLink: React.ComponentType<RouterLinkProps>
-    readonly RouterButton: React.ComponentType<RouterButtonProps>
+    readonly AllBuilds: AllBuildsType
+    readonly BuildNumber: BuildNumberType
+    readonly ContentPanel: ContentPanelType
+    readonly EntityPath: EntityPathType
+    readonly RouterLink: RouterLinkType
+    readonly RouterButton: RouterButtonType
+    readonly ServiceMessage: ServiceMessageType
+  }
+
+  type ServicesType = {
+    readonly AlertService: AlertServiceType
+    readonly HintsService: HintsServiceType
+    readonly REST: RestServiceType
   }
 
   export type PlaceIdList = {
@@ -139,6 +163,7 @@ declare module '@jetbrains/teamcity-api' {
   export type TeamCityAPIType = {
     render: RenderType
     Components: ComponentsType
+    Services: ServicesType
     utils: UtilsType
     Plugin: PluginType
     pluginRegistry: PluginRegistry
@@ -147,6 +172,7 @@ declare module '@jetbrains/teamcity-api' {
   export var render: RenderType
   export var utils: UtilsType
   export var pluginRegistry: PluginRegistry
+  export var Services: ServicesType
   export var Components: ComponentsType
   export var Plugin: PluginType
   import * as React from 'react'
@@ -170,7 +196,49 @@ declare module '@jetbrains/teamcity-api/plugin-registry' {
 
 declare module '@jetbrains/teamcity-api/components' {
   import {Components} from '@jetbrains/teamcity-api'
+  import type {
+    AllBuildsType,
+    BuildNumberType,
+    ContentPanelType,
+    EntityPathType,
+    RouterButtonType,
+    RouterLinkType,
+    ServiceMessageType,
+  } from '@jetbrains/teamcity-api/types/components'
+
+  export const AllBuilds: AllBuildsType
+  export const BuildNumber: BuildNumberType
+  export const ContentPanel: ContentPanelType
+  export const EntityPath: EntityPathType
+  export const RouterButton: RouterButtonType
+  export const RouterLink: RouterLinkType
+  export const ServiceMessage: ServiceMessageType
+
+  export {
+    AllBuildsProps,
+    BuildNumberProps,
+    ContentPanelProps,
+    EntityPathProps,
+    RouterButtonProps,
+    RouterLinkProps,
+    ServiceMessageProps,
+  } from '@jetbrains/teamcity-api/types/components'
   export default Components
+}
+
+declare module '@jetbrains/teamcity-api/services' {
+  import {Services} from '@jetbrains/teamcity-api'
+  import {
+    RestServiceType,
+    AlertServiceType,
+    HintsServiceType,
+  } from '@jetbrains/teamcity-api/types/services'
+
+  export const REST: RestServiceType
+  export const AlertService: AlertServiceType
+  export const HintsService: HintsServiceType
+
+  export default Services
 }
 
 declare module '@jetbrains/teamcity-api/utils' {
